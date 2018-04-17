@@ -259,6 +259,7 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   @Input() public textField:string = 'text';
   @Input() public childrenField:string = 'children';
   @Input() public multiple:boolean = false;
+  @Input() public safeHtml:boolean = false;
 
   @Input()
   public set items(value:Array<any>) {
@@ -344,7 +345,11 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   }
 
   public sanitize(html:string):SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+
+    if (this.safeHtml)
+      return this.sanitizer.bypassSecurityTrustHtml(html);
+    else
+      return html;
   }
 
   public inputEvent(e:any, isUpMode:boolean = false):void {
